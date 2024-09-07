@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Computing for Community</title>
+    <style>
+      /* Basic reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Smooth scrolling behavior */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Fancy background styling for the body */
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #00b4db, #0083b0);
+        color: #333;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        animation: backgroundGradient 10s ease infinite alternate;
+        overflow-x: hidden;
+      }
+
+      /* Cool background animation */
+      @keyframes backgroundGradient {
+        0% {
+          background-position: 0% 50%;
+        }
+        100% {
+          background-position: 100% 50%;
+        }
+      }
+
+      /* Wrapper ensures content grows with the page */
+      .wrapper {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 2vh 5vw;
+        width: 100%;
+      }
+
+      /* Header and Navigation styling */
+      header {
+        background: rgba(0, 180, 219, 0.7); /* Reduced transparency */
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 40px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        backdrop-filter: blur(5px); /* Soft blur */
+      }
+
+      header h1 {
+        font-size: 3vw;
+        letter-spacing: 1.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: white; /* Title stays white */
+        margin: 0;
+        transition: letter-spacing 0.4s ease-in-out;
+        cursor: pointer;
+      }
+
+      header h1:hover {
+        letter-spacing: 3px;
+      }
+
+      /* Navigation with hover effects and transitions */
+      nav {
+        display: flex;
+        gap: 20px;
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.3vw;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        padding: 10px 15px;
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      nav a::before {
+        content: "";
+        position: absolute;
+        left: -100%;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.2);
+        transition: left 0.4s;
+      }
+
+      nav a:hover::before {
+        left: 0;
+      }
+
+      nav a:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      /* Special styling for the "Get in Touch" button */
+      nav a:last-child {
+        background-color: white;
+        color: #00b4db;
+        border: 2px solid #00b4db;
+        padding: 10px 20px;
+        transition: all 0.3s ease;
+      }
+
+      nav a:last-child:hover {
+        background-color: transparent;
+        color: white;
+        border-color: white;
+      }
+
+      /* Grid layout for the content (About and Image) */
+      .content-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2vw;
+        align-items: stretch;
+        width: 90%;
+        max-width: 1100px;
+        margin: 4vh 0;
+        animation: fadeIn 1s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Left section for the About box */
+      .about-container {
+        background: linear-gradient(135deg, #f3f3f3, #ffffff);
+        border-radius: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Less dramatic shadow */
+        padding: 4vh 2vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: left;
+        border: 3px solid rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+      }
+
+      .about-container:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Subtle pop-out effect */
+        transform: scale(1.02);
+      }
+
+      .about-container h2 {
+        font-size: 2.5vw;
+        margin-bottom: 10px;
+        color: #00b4db;
+        position: relative;
+      }
+
+      .about-container h2::after {
+        content: "";
+        position: absolute;
+        width: 50px;
+        height: 5px;
+        background-color: #00b4db;
+        left: 0;
+        bottom: -10px;
+      }
+
+      .about-container p {
+        font-size: 1.2vw;
+        line-height: 1.6;
+        color: #555;
+      }
+
+      /* Right section for the image */
+      .about-image {
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
+        object-fit: cover;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Less dramatic pop */
+        border: 5px solid white;
+        transition: transform 0.3s ease;
+      }
+
+      .about-image:hover {
+        transform: scale(1.03); /* Subtle effect */
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Projects section with subtle shadows and transitions */
+      .projects-container {
+        background: linear-gradient(135deg, #f3f3f3, #ffffff);
+        border-radius: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Less dramatic */
+        width: 100%;
+        padding: 4vh 2vw;
+        text-align: center;
+        margin-bottom: 2.5vh;
+        max-width: 1100px;
+        transition: transform 0.3s ease;
+        transform: scale(1);
+      }
+
+      .projects-container:hover {
+        transform: scale(1.02);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Subtle */
+      }
+
+      .projects-container h2 {
+        font-size: 2.5vw;
+        margin-bottom: 10px;
+        color: #00b4db;
+      }
+
+      .projects-container p {
+        font-size: 1.2vw;
+        line-height: 1.6;
+        color: #555;
+      }
+
+      /* Contact section - styled similar to the projects section */
+      .contact-container {
+        background: linear-gradient(135deg, #f3f3f3, #ffffff);
+        border-radius: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        padding: 4vh 2vw;
+        text-align: center;
+        margin-bottom: 2.5vh;
+        max-width: 1100px;
+        transition: transform 0.3s ease;
+        transform: scale(1);
+      }
+
+      .contact-container:hover {
+        transform: scale(1.02);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .contact-container h2 {
+        font-size: 2.5vw;
+        margin-bottom: 10px;
+        color: #00b4db;
+      }
+
+      /* Contact form styling */
+      .contact-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .contact-form input,
+      .contact-form textarea {
+        padding: 10px;
+        font-size: 1.2vw;
+        border: 2px solid #00b4db;
+        border-radius: 10px;
+        outline: none;
+        transition: border-color 0.3s ease;
+      }
+
+      .contact-form input:focus,
+      .contact-form textarea:focus {
+        border-color: #0083b0;
+      }
+
+      .contact-form button {
+        padding: 10px 20px;
+        background-color: #00b4db;
+        color: white;
+        border: none;
+        font-size: 1.2vw;
+        cursor: pointer;
+        border-radius: 10px;
+        transition: background-color 0.3s ease;
+      }
+
+      .contact-form button:hover {
+        background-color: #0083b0;
+      }
+
+      /* Footer styling */
+      footer {
+        background-color: #333;
+        color: white;
+        text-align: center;
+        padding: 2vh 5vw;
+        width: 100%;
+        box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.2);
+      }
+
+      footer p {
+        margin: 5px 0;
+      }
+
+      footer p:first-child {
+        font-weight: bold;
+        font-size: 1.5vw;
+        color: #00b4db;
+      }
+
+      /* Media Queries for Responsive Design */
+      @media (max-width: 768px) {
+        header h1 {
+          font-size: 6vw;
+        }
+
+        nav a {
+          font-size: 3vw;
+        }
+
+        .content-grid {
+          grid-template-columns: 1fr;
+          gap: 5vw;
+        }
+
+        .about-container,
+        .projects-container,
+        .contact-container {
+          padding: 8vw;
+        }
+
+        .projects-container h2,
+        .about-container h2,
+        .contact-container h2 {
+          font-size: 6vw;
+        }
+
+        .projects-container p,
+        .about-container p,
+        .contact-form input,
+        .contact-form textarea,
+        .contact-form button {
+          font-size: 4vw;
+        }
+
+        footer p:first-child {
+          font-size: 2.5vw;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <!-- Anchor to scroll to the top when clicking title -->
+      <a href="#" style="text-decoration: none">
+        <h1>Computing For Community</h1>
+      </a>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Get in Touch!</a>
+      </nav>
+    </header>
+
+    <div class="wrapper">
+      <div class="content-grid" id="about">
+        <!-- Left side: About Section -->
+        <section class="about-container">
+          <h2>About</h2>
+          <p>
+            <strong>Computing for Community</strong> is a student-led club at
+            Amity Regional High School, established in 2024 with a mission to
+            leverage programming and software development skills for community
+            service. Our members are proficient in a variety of programming
+            languages, including <em>Python</em>, <em>JavaScript</em>, and
+            <em>C</em>. We use these skills to create software solutions
+            tailored for classrooms, non-profits, and local organizations. Our
+            goal is to improve operational efficiency, enhance user experiences,
+            and address the specific needs of these organizations. By bridging
+            the gap between technology and community service, we aim to make a
+            meaningful impact through innovation and collaboration.
+          </p>
+        </section>
+
+        <!-- Right side: Image -->
+        <img class="about-image" src="aboutUsImage.png" alt="About Us Image" />
+      </div>
+
+      <!-- Projects section below both the image and the about box -->
+      <section class="projects-container" id="projects">
+        <h2>Projects</h2>
+        <p>
+          Currently, we are working hard to implement and develop our first
+          projects. As more of them get completed, we will post them on this
+          website. For any inquiries or project requests, please contact us in
+          the email form below.
+        </p>
+      </section>
+
+      <!-- Contact section -->
+      <section class="contact-container" id="contact">
+        <h2>Contact Us</h2>
+        <form
+          class="contact-form"
+          action="mailto:computingforcommunity@gmail.com?subject=Inquiry from Website"
+          method="post"
+          enctype="text/plain"
+        >
+          <input type="text" name="name" placeholder="Your Name" required />
+          <input type="email" name="email" placeholder="Your Email" required />
+          <textarea
+            name="message"
+            rows="5"
+            placeholder="Your Message"
+            required
+          ></textarea>
+          <button type="submit">Send</button>
+        </form>
+      </section>
+    </div>
+
+    <footer>
+      <p>computingforcommunity@gmail.com</p>
+      <p>&copy; 2024 Computing For Community - All Rights Reserved.</p>
+    </footer>
+  </body>
+</html>
